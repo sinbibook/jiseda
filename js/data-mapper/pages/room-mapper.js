@@ -370,14 +370,14 @@ class RoomMapper extends BaseDataMapper {
         const interiorImages = room.images?.[0]?.interior || [];
         const sortedImages = interiorImages
             .filter(img => img.isSelected)
-            .sort((a, b) => (b.sortOrder || 0) - (a.sortOrder || 0));
+            .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
-        // 0번째 이미지 (horizontal)
+        // 3번째 이미지 (horizontal)
         const horizontalImage = this.safeSelect('[data-room-interior-image-0]');
         if (horizontalImage) {
-            if (sortedImages[0]) {
-                horizontalImage.src = sortedImages[0].url;
-                horizontalImage.alt = sortedImages[0].description || `${room.name} Interior 1`;
+            if (sortedImages[2]) {
+                horizontalImage.src = sortedImages[2].url;
+                horizontalImage.alt = sortedImages[2].description || `${room.name} Interior 3`;
                 horizontalImage.setAttribute('data-image-fallback', '');
                 horizontalImage.classList.remove('empty-image-placeholder');
             } else {
@@ -386,12 +386,12 @@ class RoomMapper extends BaseDataMapper {
             }
         }
 
-        // 1번째 이미지 (vertical)
+        // 4번째 이미지 (vertical)
         const verticalImage = this.safeSelect('[data-room-interior-image-1]');
         if (verticalImage) {
-            if (sortedImages[1]) {
-                verticalImage.src = sortedImages[1].url;
-                verticalImage.alt = sortedImages[1].description || `${room.name} Interior 2`;
+            if (sortedImages[3]) {
+                verticalImage.src = sortedImages[3].url;
+                verticalImage.alt = sortedImages[3].description || `${room.name} Interior 4`;
                 verticalImage.setAttribute('data-image-fallback', '');
                 verticalImage.classList.remove('empty-image-placeholder');
             } else {

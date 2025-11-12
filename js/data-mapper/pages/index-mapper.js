@@ -117,14 +117,30 @@ class IndexMapper extends BaseDataMapper {
                 if (roomsInGroup.length === 0) return;
 
                 // 탭 생성
-                const tab = document.createElement('button');
+                const tab = document.createElement('div');
                 tab.className = `room-tab${index === 0 ? ' active' : ''}`;
                 tab.setAttribute('data-room', group);
                 tab.innerHTML = `
-                    <span class="room-tab-number">${String(index + 1).padStart(2, '0')}</span>
-                    <span class="room-tab-name">${group}</span>
+                    <span class="room-tab-content">
+                        <span class="room-tab-number">${String(index + 1).padStart(2, '0')}</span>
+                        <span class="room-tab-name">${group}</span>
+                    </span>
+                    <button class="room-tab-detail-btn" data-group="${group}">
+                        <span class="btn-text">VIEW</span>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7,7 17,7 17,17"></polyline>
+                        </svg>
+                    </button>
                 `;
                 tabsContainer.appendChild(tab);
+
+                // VIEW 버튼 클릭 이벤트
+                const detailBtn = tab.querySelector('.room-tab-detail-btn');
+                detailBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // tab 클릭 이벤트 방지
+                    window.location.href = `room-list.html?group=${encodeURIComponent(group)}`;
+                });
 
                 // 설명 생성
                 const descItem = document.createElement('div');
@@ -218,11 +234,17 @@ class IndexMapper extends BaseDataMapper {
         const titleEl = this.safeSelect('[data-essence-title]');
         const descEl = this.safeSelect('[data-essence-description]');
 
-        if (titleEl && essenceData.description !== undefined) {
-            titleEl.innerHTML = essenceData.description.replace(/\n/g, '<br>');
+        if (titleEl) {
+            const description = (essenceData.description !== undefined && essenceData.description !== '')
+                ? essenceData.description
+                : '특징 섹션 설명';
+            titleEl.innerHTML = description.replace(/\n/g, '<br>');
         }
-        if (descEl && essenceData.title !== undefined) {
-            descEl.textContent = essenceData.title;
+        if (descEl) {
+            const title = (essenceData.title !== undefined && essenceData.title !== '')
+                ? essenceData.title
+                : '특징 섹션 타이틀';
+            descEl.textContent = title;
         }
 
         // 어드민에서 이미 선택된 이미지만 전송하므로 필터링 불필요
@@ -265,7 +287,12 @@ class IndexMapper extends BaseDataMapper {
         const titleElement = this.safeSelect('[data-gallery-title]');
         const imagesWrapper = this.safeSelect('[data-gallery-images]');
 
-        if (titleElement) titleElement.textContent = galleryData.title || '';
+        if (titleElement) {
+            const title = (galleryData.title !== undefined && galleryData.title !== '')
+                ? galleryData.title
+                : '갤러리 섹션 타이틀';
+            titleElement.textContent = title;
+        }
         if (!imagesWrapper) {
             return;
         }
@@ -288,7 +315,7 @@ class IndexMapper extends BaseDataMapper {
                 img.loading = 'lazy';
                 const overlay = document.createElement('div');
                 overlay.className = 'experience-accordion-overlay';
-                overlay.innerHTML = '<h4>No Images</h4>';
+                overlay.innerHTML = '<h4>갤러리 섹션 설명</h4>';
                 placeholderItem.appendChild(img);
                 placeholderItem.appendChild(overlay);
                 return placeholderItem;
@@ -314,12 +341,13 @@ class IndexMapper extends BaseDataMapper {
             const leftAccordion = document.createElement('div');
             leftAccordion.className = 'experience-accordion-left';
             leftImages.forEach(img => {
+                const description = img.description || '갤러리 섹션 설명';
                 const item = document.createElement('div');
                 item.className = 'experience-accordion-item visible';
                 item.innerHTML = `
-                    <img src="${img.url}" alt="${img.description}" loading="lazy">
+                    <img src="${img.url}" alt="${description}" loading="lazy">
                     <div class="experience-accordion-overlay">
-                        <h4>${img.description}</h4>
+                        <h4>${description}</h4>
                     </div>
                 `;
                 leftAccordion.appendChild(item);
@@ -328,12 +356,13 @@ class IndexMapper extends BaseDataMapper {
             const rightAccordion = document.createElement('div');
             rightAccordion.className = 'experience-accordion-right';
             rightImages.forEach(img => {
+                const description = img.description || '갤러리 섹션 설명';
                 const item = document.createElement('div');
                 item.className = 'experience-accordion-item visible';
                 item.innerHTML = `
-                    <img src="${img.url}" alt="${img.description}" loading="lazy">
+                    <img src="${img.url}" alt="${description}" loading="lazy">
                     <div class="experience-accordion-overlay">
-                        <h4>${img.description}</h4>
+                        <h4>${description}</h4>
                     </div>
                 `;
                 rightAccordion.appendChild(item);
@@ -388,7 +417,7 @@ class IndexMapper extends BaseDataMapper {
                 </div>
                 <div class="signature-slide-content">
                     <span class="quote-mark quote-top">"</span>
-                    <h3 class="signature-slide-title">이미지 설명을 입력해 주세요.</h3>
+                    <h3 class="signature-slide-title">시그니처 섹션 설명</h3>
                     <span class="quote-mark quote-bottom">"</span>
                 </div>
             `;
