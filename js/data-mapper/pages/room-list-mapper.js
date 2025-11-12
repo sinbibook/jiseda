@@ -56,6 +56,9 @@ class RoomListMapper extends BaseDataMapper {
     mapHeroSection() {
         if (!this.isDataLoaded) return;
 
+        // 그룹별 객실 필터링 (Hero 이미지 매핑에 필요)
+        this.filterRoomsByGroup();
+
         // Hero 제목 매핑 - URL 그룹 파라미터로 표시
         const heroTitle = this.safeSelect('[data-customfield-room-list-hero-title]');
         if (heroTitle) {
@@ -82,9 +85,9 @@ class RoomListMapper extends BaseDataMapper {
         const heroImageElement = this.safeSelect('[data-customfield-room-list-hero-image-0]');
         if (!heroImageElement) return;
 
-        // 첫 번째 객실의 exterior 이미지 사용 (isSelected 필터링 + sortOrder 정렬)
-        if (this.data.rooms && this.data.rooms.length > 0) {
-            const firstRoom = this.data.rooms[0];
+        // 그룹별 필터링된 객실 중 첫 번째 객실의 exterior 이미지 사용
+        if (this.filteredRooms && this.filteredRooms.length > 0) {
+            const firstRoom = this.filteredRooms[0];
             const exteriorImages = firstRoom.images?.[0]?.exterior || [];
 
             // isSelected: true인 이미지만 필터링 + sortOrder 정렬
