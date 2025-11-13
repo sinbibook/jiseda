@@ -335,7 +335,7 @@
     }
 
     .hero-slider-section {
-        height: 65vh !important;
+        height: 60vh !important;
         padding: 60px 0 !important;
     }
 }
@@ -436,7 +436,7 @@
 /* Room Header Info */
 .room-header-info {
     text-align: right;
-    margin: -240px auto 60px auto;
+    margin: -150px auto 60px auto;
     padding: 0 0 0 20px;
     opacity: 0;
     transform: translateY(40px);

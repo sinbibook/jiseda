@@ -557,7 +557,6 @@
 .room-tab {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 20px;
     border: none;
     /* background: rgba(255, 255, 255, 0.7);
@@ -938,7 +937,7 @@
         position: relative;
         width: 100%;
         height: 400px;
-        margin-top: 0px;
+        margin-top: 40px;
         transform: none;
     }
 
@@ -1356,7 +1355,7 @@
 }
 
 .experience-accordion-overlay h4 {
-    font-family: 'Chonburi', cursive;
+    font-family: 'MaruBuri', sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 10px;
