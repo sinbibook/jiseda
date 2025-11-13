@@ -425,6 +425,16 @@ class FacilityMapper extends BaseDataMapper {
             usageGuideItem.appendChild(description);
             container.appendChild(usageGuideItem);
         }
+
+        // 이용안내 박스 표시/숨김 처리
+        const usageGuideBox = document.querySelector('.facility-text-content.usage-guide');
+        if (usageGuideBox) {
+            if (facility.usageGuide && facility.usageGuide.trim()) {
+                usageGuideBox.style.display = 'block';
+            } else {
+                usageGuideBox.style.display = 'none';
+            }
+        }
     }
 
     /**
